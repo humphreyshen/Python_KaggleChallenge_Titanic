@@ -3,6 +3,7 @@ import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from sklearn.preprocessing import MinMaxScaler # Normalization
 from sklearn.linear_model import LogisticRegression
+import plotly.express as px
 # %%
 train_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/train.csv")
 test_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/test.csv")
@@ -42,6 +43,9 @@ test_data['Fare'].fillna(int(test_data['Fare'].mean()), inplace=True)
 print('Null values in Train Data after preprocessing:\n',train_data.isnull().sum())
 print('Null values in Test Data after preprocessing:\n',test_data.isnull().sum())
 #%%
+origin_train_data=train_data.copy()
+origin_test_data=test_data.copy()
+#%%
 train_data.Age = MinMaxScaler().fit_transform(np.array(train_data.Age).reshape(-1,1))
 train_data.Fare = MinMaxScaler().fit_transform(np.array(train_data.Fare).reshape(-1,1))
 test_data.Age = MinMaxScaler().fit_transform(np.array(test_data.Age).reshape(-1,1))
@@ -66,5 +70,17 @@ df1 = pd.DataFrame(output, columns =['Survived'])
 result = pd.concat([df,df1],axis=1, join="inner")
 result.info()
 # %%
-result.to_csv('Titanic_Survived_Predicion.csv',encoding='utf-8-sig')
+result
+# %%
+visualized=origin_test_data
+visualized
+# %%
+merge=visualized.merge(result, how='inner', on='PassengerId')
+# %%
+merge.Survived=merge.Survived.astype('object')
+# %%
+merge.dtypes
+#%%
+fig = px.scatter(merge, x="Age", y="Fare", color="Survived")
+fig.show()
 # %%
