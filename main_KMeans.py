@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler # Normalization
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
+import plotly.express as px
 # %%
 train_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/train.csv")
 test_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/test.csv")
@@ -49,7 +49,24 @@ print(correct/len(x))
 #%%
 print(clf.labels_)
 #%%
-plt.scatter(train_data['PassengerId'],y=train_data['Sex'],c=clf.labels_.astype(float))
+fig = px.scatter(train_data,x='PassengerId',y='Fare',color=clf.labels_)
+fig.show()
+
 # %%
-plt.scatter(train_data['PassengerId'],y=train_data['Fare'],c=clf.labels_.astype(float))
+test_x=test_data.copy()
+scaled_test=preprocessing.scale(test_x)
+output = clf.predict(scaled_test)
+output
+#%%
+column1  = test_data.PassengerId
+df = pd.DataFrame(column1, columns =['PassengerId'])
+df1 = pd.DataFrame(output, columns =['Survived'])
+result = pd.concat([df,df1],axis=1, join="inner")
+visualized=test_data
+merge=visualized.merge(result, how='inner', on='PassengerId')
+merge.Survived=merge.Survived.astype('object')
+fig = px.scatter(merge, x="Age", y="Fare", color="Survived")
+fig.show()
+fig.write_image("Prediction_KMeans.png")
+
 # %%

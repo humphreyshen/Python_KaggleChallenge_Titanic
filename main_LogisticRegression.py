@@ -7,13 +7,8 @@ import plotly.express as px
 # %%
 train_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/train.csv")
 test_data=pd.read_csv("D:/Coding_Project/Python_KaggleChallenge_Titanic/Data/test.csv")
-# %%
-test_data.head()
-# %%
-train_data.head()
-# %%
+
 train_data.info()
-# %%
 test_data.info()
 #%%
 print('Number of siblings / spouses aboard the Titanic for Train Data: ',train_data.SibSp.unique())
@@ -83,4 +78,5 @@ merge.dtypes
 #%%
 fig = px.scatter(merge, x="Age", y="Fare", color="Survived")
 fig.show()
+fig.write_image("Prediction_LogisticRegression.png")
 # %%
