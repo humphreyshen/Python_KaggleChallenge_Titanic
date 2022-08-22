@@ -70,3 +70,4 @@ fig.show()
 fig.write_image("Prediction_KMeans.png")
 
 # %%
+result.to_csv('Prediction_KMeans.csv',encoding='utf-8-sig',index=False)

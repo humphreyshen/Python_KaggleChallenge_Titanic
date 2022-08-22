@@ -80,3 +80,5 @@ fig = px.scatter(merge, x="Age", y="Fare", color="Survived")
 fig.show()
 fig.write_image("Prediction_LogisticRegression.png")
 # %%
+result.to_csv('Prediction_LogisticRegression.csv',encoding='utf-8-sig',index=False)
+# %%
